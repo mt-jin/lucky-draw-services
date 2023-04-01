@@ -7,6 +7,7 @@ class LuckyDrawInfoResponse(
     val name: String?,
     val description: String?,
     val maxEntries: BigInteger,
-    val entryNumber: BigInteger?
+    val entryNumber: BigInteger?,
+    val prizeNames: List<String>
 ) {
 }
