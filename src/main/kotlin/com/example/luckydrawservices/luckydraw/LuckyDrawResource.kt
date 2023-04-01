@@ -1,6 +1,6 @@
-package com.example.luckydrawservices.luckydraws
+package com.example.luckydrawservices.luckydraw
 
-import com.example.luckydrawservices.luckydraws.query.LuckyDrawQueryService
+import com.example.luckydrawservices.luckydraw.query.LuckyDrawQueryService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 

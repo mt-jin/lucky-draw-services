@@ -1,4 +1,4 @@
-package com.example.luckydrawservices.luckydraws.infrastructure
+package com.example.luckydrawservices.luckydraw.query.model
 
 import java.math.BigInteger
 

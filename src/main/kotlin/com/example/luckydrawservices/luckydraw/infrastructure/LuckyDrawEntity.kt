@@ -1,4 +1,4 @@
-package com.example.luckydrawservices.luckydraws.infrastructure
+package com.example.luckydrawservices.luckydraw.infrastructure
 
 import jakarta.persistence.Entity
 import jakarta.persistence.Id

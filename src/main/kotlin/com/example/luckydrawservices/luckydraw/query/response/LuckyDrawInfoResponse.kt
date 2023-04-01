@@ -1,4 +1,4 @@
-package com.example.luckydrawservices.luckydraws.query.response
+package com.example.luckydrawservices.luckydraw.query.response
 
 import java.math.BigInteger
 
