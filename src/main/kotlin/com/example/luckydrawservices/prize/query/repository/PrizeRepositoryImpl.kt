@@ -14,4 +14,10 @@ class PrizeRepositoryImpl(
             PrizeInfo(it.id,it.luckyDrawId,it.name)
         }
     }
+
+    override fun retrievePrizeById(prizeId: BigInteger): PrizeInfo {
+        val prize = jpaRepository.findById(prizeId).get()
+        return PrizeInfo(prize.id, prize.luckyDrawId, prize.name)
+
+    }
 }
