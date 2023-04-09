@@ -12,7 +12,6 @@ class LuckyDrawQueryService(
     private val prizeRepository: PrizeRepository
 ) {
     fun retrieveLuckyDraws(): List<LuckyDrawInfoResponse>{
-        val luckyDrawInfoResponses: List<LuckyDrawInfoResponse>
         val luckyDraws = repository.retrieveLuckyDraws()
 
         return luckyDraws.map {

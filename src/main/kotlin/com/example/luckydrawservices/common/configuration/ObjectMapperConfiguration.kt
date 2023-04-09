@@ -1,4 +1,4 @@
-package io.tomoloyalty.reward.common.configuration.objectmapper
+package com.example.luckydrawservices.common.configuration
 
 import com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_COMMENTS
 import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
