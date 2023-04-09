@@ -14,7 +14,7 @@ data class PrizeEntity(
     val name: String,
     val description: String?,
     val value: String?,
-    val stock: BigInteger,
+    var stock: BigInteger,
     val probability: Double?,
     val categories: String?
 ) {

@@ -18,7 +18,7 @@ class UserLuckyDrawQueryService(
         return userLuckyDraws.map {userLuckyDraw ->
             val prizeName = prizeRepository.retrievePrizeById(userLuckyDraw.prizeId).name
             val rewardName = luckyDrawRepository.retrieveLuckyDrawById(userLuckyDraw.luckyDrawId).name
-            UserLuckyDrawInfoResponse(userLuckyDraw.id, rewardName, prizeName)
+            UserLuckyDrawInfoResponse(rewardName, prizeName)
         }
     }
 }

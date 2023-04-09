@@ -5,7 +5,8 @@ import java.math.BigInteger
 data class PrizeInfo(
     val id: BigInteger,
     val luckDrawId: BigInteger,
-    val name: String
+    val name: String,
+    val stock: BigInteger
 ) {
 
 }
