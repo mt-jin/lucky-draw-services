@@ -14,6 +14,8 @@ interface UserLuckyDrawMapper {
     )
     fun toUserLuckyDrawEntity(userLuckyDraw: UserLuckyDraw): UserLuckyDrawEntity
 
+    fun toUserLuckyDraw(userLuckyDrawEntity: UserLuckyDrawEntity): UserLuckyDraw
+
     companion object {
         val MAPPER: UserLuckyDrawMapper = Mappers.getMapper(UserLuckyDrawMapper::class.java)
     }

@@ -12,7 +12,6 @@ class UserLuckyDrawRepositoryImpl(
 ) : UserLuckyDrawRepository {
     override fun retrieveUserLuckyDrawsByUserId(userId: BigInteger):List<UserLuckyDraw> {
         val results = userLuckyDrawJpaRepository.findALlByUserId(userId)
-//        results.forEach{ println("UserLuckyDraw"+it.id + it.luckyDrawId + it.userId + it.prizeId) }
         return results.map { UserLuckyDraw(luckyDrawId = it.luckyDrawId,userId =it.userId, prizeId = it.prizeId) }
     }
 
