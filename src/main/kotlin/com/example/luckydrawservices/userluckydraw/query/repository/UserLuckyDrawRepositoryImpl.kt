@@ -15,9 +15,10 @@ class UserLuckyDrawRepositoryImpl(
         return results.map { UserLuckyDraw(luckyDrawId = it.luckyDrawId,userId =it.userId, prizeId = it.prizeId) }
     }
 
-    override fun saveUserLuckyDraw(userLuckyDraw: UserLuckyDraw) {
+    override fun saveUserLuckyDraw(userLuckyDraw: UserLuckyDraw): UserLuckyDraw {
         val userLuckyDrawEntity = MAPPER.toUserLuckyDrawEntity(userLuckyDraw)
         userLuckyDrawEntity.completed = true
         userLuckyDrawJpaRepository.saveAndFlush(userLuckyDrawEntity)
+        return MAPPER.toUserLuckyDraw(userLuckyDrawEntity)
     }
 }

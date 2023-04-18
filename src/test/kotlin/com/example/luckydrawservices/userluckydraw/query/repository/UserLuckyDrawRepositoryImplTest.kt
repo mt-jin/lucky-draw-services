@@ -6,6 +6,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
+import io.mockk.verify
 import java.math.BigInteger
 import java.time.Instant
 import org.junit.jupiter.api.Assertions
@@ -50,5 +51,18 @@ class UserLuckyDrawRepositoryImplTest {
         Assertions.assertEquals(listOf(userLuckyDraw), userLuckyDraws)
     }
 
+    @Test
+    fun `should save user lucky draw successfully`() {
+        val completedUserLuckyDrawEntity = userLuckyDrawEntity.copy(completed = true)
+        every {
+            userLuckyDrawJpaRepository.saveAndFlush(completedUserLuckyDrawEntity)
+        } returns completedUserLuckyDrawEntity
+
+        userLuckyDrawRepositoryImpl.saveUserLuckyDraw(userLuckyDraw)
+
+        verify(exactly = 1) {
+            userLuckyDrawJpaRepository.saveAndFlush(completedUserLuckyDrawEntity)
+        }
+    }
 
 }
