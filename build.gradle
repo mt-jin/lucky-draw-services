@@ -1,6 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+    id 'idea'
     id 'org.springframework.boot' version '3.0.5'
     id 'io.spring.dependency-management' version '1.1.0'
     id 'org.jetbrains.kotlin.jvm' version '1.7.22'
@@ -36,7 +37,15 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation "io.mockk:mockk:1.13.4"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.kafka:spring-kafka-test'
+
+//    testImplementation 'org.springframework.kafka:spring-kafka-test'
+    testImplementation 'com.github.database-rider:rider-junit5:1.36.0'
+    testRuntimeOnly "com.h2database:h2"
+//    testImplementation("org.springframework.cloud:spring-cloud-starter-contract-stub-runner")
+    testImplementation 'org.springframework.cloud:spring-cloud-contract-wiremock:3.1.6'
+
+
+
 }
 
 tasks.withType(KotlinCompile).configureEach {
@@ -49,3 +58,38 @@ tasks.withType(KotlinCompile).configureEach {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+sourceSets {
+    apiTest {
+            kotlin.srcDir("src/apiTest/kotlin")
+            resources.srcDir("src/apiTest/resources")
+            compileClasspath += sourceSets.main.output + sourceSets.test.output
+            runtimeClasspath += sourceSets.main.output + sourceSets.test.output
+    }
+}
+
+tasks.register('apiTest', Test) {
+    description = 'Runs integration tests.'
+    group = 'verification'
+
+    testClassesDirs = sourceSets.apiTest.output.classesDirs
+    classpath = sourceSets.apiTest.runtimeClasspath
+    shouldRunAfter test
+
+    useJUnitPlatform()
+}
+
+
+configurations {
+    apiTestImplementation.extendsFrom testImplementation
+}
+
+
+idea {
+    module {
+        testSourceDirs = testSourceDirs + sourceSets.apiTest.allSource.srcDirs
+        testResourceDirs = testResourceDirs + sourceSets.apiTest.resources.srcDirs
+    }
+}
+
+
