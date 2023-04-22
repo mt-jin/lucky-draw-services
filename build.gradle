@@ -84,6 +84,9 @@ tasks.register('apiTest', Test) {
     useJUnitPlatform()
 }
 check.dependsOn apiTest
+tasks.withType(Copy).configureEach { duplicatesStrategy 'exclude' }
+
+
 
 idea {
     module {

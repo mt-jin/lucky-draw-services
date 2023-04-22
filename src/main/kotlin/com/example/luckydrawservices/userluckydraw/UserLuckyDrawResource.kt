@@ -15,11 +15,13 @@ class UserLuckyDrawResource (
 ){
 
     @GetMapping("/userluckydraws/{userId}")
+//    userId requestBody
     fun retrieveUserLuckyDraws(
         @PathVariable userId: BigInteger
     ) = userLuckyDrawQueryService.retrieveUserLuckyDrawsByUserId(userId)
 
     @PostMapping("/userluckydraws/luckydraws/{luckyDrawId}/userid/{userId}")
+//    /userluckydraws/luckydraws
     fun drawLuckyDraw(
         @PathVariable("luckyDrawId") luckyDrawId: BigInteger,
         @PathVariable("userId") userId: BigInteger) = userLuckyDrawApplicationService.drawLuckyDraw(luckyDrawId, userId)

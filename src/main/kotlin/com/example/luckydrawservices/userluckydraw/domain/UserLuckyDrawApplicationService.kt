@@ -15,23 +15,27 @@ class UserLuckyDrawApplicationService(
     val drawHandler: DrawHandler
 ) {
     fun drawLuckyDraw(luckyDrawId: BigInteger, userId: BigInteger): DrawLuckyDrawResponse? {
-//        查库存
-//        查奖品
+//      retrieve prize inventory
         val prizes = prizeRepository.findPrizesByLuckyDrawId(luckyDrawId)
-//        随机抽奖
+//        draw
         val prizeDrew = drawHandler.getPrizeByRandom(prizes)
-//        改变库存
+//        change inventory & save userLuckyDraw
         prizeDrew?.let {
+            //?
             val prize = prizeRepository.retrievePrizeById(it.id)
+
             val stock = prize.stock.minus(BigInteger.ONE)
             prizeRepository.updatePrizeStock(prize.copy(stock = stock))
+//            为什么不能改变val var, 为什么用copy
+//            minus stock，prize的方法
             //        写结果到userLuckyDraw table
             val userLuckyDraw = UserLuckyDraw(luckyDrawId = luckyDrawId, userId = userId, prizeId = it.id)
             userLuckyDrawRepository.saveUserLuckyDraw(userLuckyDraw)
             return DrawLuckyDrawResponse(luckyDrawId, prize.name)
         }
-
+//        !!代替?.let
         return null
+
     }
 
 }
