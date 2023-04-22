@@ -59,6 +59,11 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
+configurations {
+    apiTestImplementation.extendsFrom testImplementation
+    apiTestRuntimeOnly.extendsFrom testRuntimeOnly
+}
+
 sourceSets {
     apiTest {
             kotlin.srcDir("src/apiTest/kotlin")
@@ -78,12 +83,7 @@ tasks.register('apiTest', Test) {
 
     useJUnitPlatform()
 }
-
-
-configurations {
-    apiTestImplementation.extendsFrom testImplementation
-}
-
+check.dependsOn apiTest
 
 idea {
     module {
