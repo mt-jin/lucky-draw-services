@@ -35,17 +35,17 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
-    testImplementation "io.mockk:mockk:1.13.4"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-//    testImplementation 'org.springframework.kafka:spring-kafka-test'
+    testImplementation 'org.hamcrest:hamcrest-all:1.3'
+    testImplementation('io.rest-assured:rest-assured:5.2.0')
+    testImplementation('io.rest-assured:json-path:5.2.0')
+    testImplementation('io.rest-assured:xml-path:5.2.0')
     testImplementation 'com.github.database-rider:rider-junit5:1.36.0'
+
+    testImplementation ('io.rest-assured:kotlin-extensions:5.2.0')
+    testImplementation 'io.mockk:mockk:1.13.4'
     testRuntimeOnly "com.h2database:h2"
-//    testImplementation("org.springframework.cloud:spring-cloud-starter-contract-stub-runner")
-    testImplementation 'org.springframework.cloud:spring-cloud-contract-wiremock:3.1.6'
-
-
-
 }
 
 tasks.withType(KotlinCompile).configureEach {
@@ -59,18 +59,21 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
+
+sourceSets {
+    apiTest {
+        kotlin.srcDir("src/apiTest/kotlin")
+        resources.srcDir("src/apiTest/resources")
+        compileClasspath += sourceSets.main.output + sourceSets.test.output
+        runtimeClasspath += sourceSets.main.output + sourceSets.test.output
+    }
+}
 configurations {
     apiTestImplementation.extendsFrom testImplementation
     apiTestRuntimeOnly.extendsFrom testRuntimeOnly
 }
-
-sourceSets {
-    apiTest {
-            kotlin.srcDir("src/apiTest/kotlin")
-            resources.srcDir("src/apiTest/resources")
-            compileClasspath += sourceSets.main.output + sourceSets.test.output
-            runtimeClasspath += sourceSets.main.output + sourceSets.test.output
-    }
+dependencies {
+    apiTestImplementation 'org.junit.jupiter:junit-jupiter:5.7.1'
 }
 
 tasks.register('apiTest', Test) {
@@ -82,10 +85,12 @@ tasks.register('apiTest', Test) {
     shouldRunAfter test
 
     useJUnitPlatform()
+//    testLogging {
+//        events "passed"
+//    }
 }
 check.dependsOn apiTest
 tasks.withType(Copy).configureEach { duplicatesStrategy 'exclude' }
-
 
 
 idea {

@@ -1,0 +1,11 @@
+lucky_draw:
+  -id: 1
+  name: Lucky draw A
+  description: Get your prizes now!
+  max_entries: 100
+  entry_number: 0
+  mode: null
+  categories: null
+  tage: null
+  status: null
+  deleted: 0
