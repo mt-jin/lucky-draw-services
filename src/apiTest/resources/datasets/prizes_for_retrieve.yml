@@ -1,9 +1,17 @@
 prize:
-  -id: 1
-  lucky_draw_id: 1
-  name: pepsi
-  description: 250 ml/can
-  value: $2
-  stock: 5
-  probability: null
-  categories: null
+  - id: 1
+    lucky_draw_id: 1
+    name: pepsi
+    description: 250 ml/can
+    prize_value: $2
+    stock: 5
+    probability: null
+    categories: null
+  - id: 2
+    lucky_draw_id: 1
+    name: coca cola
+    description: 250 ml/can
+    prize_value: $2
+    stock: 4
+    probability: null
+    categories: null

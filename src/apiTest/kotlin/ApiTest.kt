@@ -1,5 +1,6 @@
 
 import com.example.luckydrawservices.LuckyDrawServicesApplication
+import com.github.database.rider.junit5.api.DBRider
 import io.restassured.RestAssured
 import io.restassured.builder.RequestSpecBuilder
 import io.restassured.http.ContentType
@@ -10,12 +11,10 @@ import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.test.context.ActiveProfiles
 
 
-//@DBRider
+@DBRider
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ActiveProfiles("api-test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = [LuckyDrawServicesApplication::class])
-//@SpringBootTest(classes = arrayOf( LuckyDrawServicesApplication::class))
-//@SpringBootTest
 
 class ApiTest {
     @LocalServerPort

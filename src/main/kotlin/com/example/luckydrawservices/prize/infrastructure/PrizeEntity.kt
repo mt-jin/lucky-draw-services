@@ -13,7 +13,7 @@ data class PrizeEntity(
     val luckyDrawId: BigInteger,
     val name: String,
     val description: String?,
-    val value: String?,
+    val prizeValue: String?,
     var stock: BigInteger,
     val probability: Double?,
     val categories: String?
