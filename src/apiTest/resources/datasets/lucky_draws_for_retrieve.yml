@@ -9,3 +9,13 @@ lucky_draw:
     tags: null
     status: null
     deleted: 0
+  - id: 2
+    name: Lucky draw B
+    description: Get your prizes now!
+    max_entries: 100
+    entry_number: 0
+    mode: null
+    categories: null
+    tags: null
+    status: null
+    deleted: 0

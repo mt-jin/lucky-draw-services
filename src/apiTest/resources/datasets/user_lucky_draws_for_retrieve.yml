@@ -1,0 +1,16 @@
+user_lucky_draw:
+  - id: 1
+    lucky_draw_id: 1
+    user_id: 1
+    completed: true
+    prize_id: 1
+  - id: 2
+    lucky_draw_id: 1
+    user_id: 1
+    completed: true
+    prize_id: 2
+  - id: 3
+    lucky_draw_id: 2
+    user_id: 1
+    completed: true
+    prize_id: 1

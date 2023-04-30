@@ -1,10 +1,11 @@
-
+package com.example.luckydrawservices.luckydraw
+import ApiTest
 import com.github.database.rider.core.api.dataset.DataSet
 import io.restassured.RestAssured.`when`
 import org.hamcrest.CoreMatchers.equalTo
 import org.junit.jupiter.api.Test
 
-class RetrieveLuckyDrawsApiTest : ApiTest() {
+class LuckyDrawApiTest : ApiTest() {
     @Test
     @DataSet("datasets/lucky_draws_for_retrieve.yml, datasets/prizes_for_retrieve.yml")
     fun `should return 200 when retrieve lucky draws success`() {
