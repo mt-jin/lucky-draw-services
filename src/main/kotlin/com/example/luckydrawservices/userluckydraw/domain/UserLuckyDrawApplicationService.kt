@@ -1,7 +1,7 @@
 package com.example.luckydrawservices.userluckydraw.domain
 
 import com.example.luckydrawservices.prize.query.repository.PrizeRepository
-import com.example.luckydrawservices.userluckydraw.domain.handler.DrawHandler
+import com.example.luckydrawservices.userluckydraw.domain.Utils.DrawUtil
 import com.example.luckydrawservices.userluckydraw.domain.response.DrawLuckyDrawResponse
 import com.example.luckydrawservices.userluckydraw.query.model.UserLuckyDraw
 import com.example.luckydrawservices.userluckydraw.query.repository.UserLuckyDrawRepository
@@ -12,13 +12,13 @@ import org.springframework.stereotype.Service
 class UserLuckyDrawApplicationService(
     val prizeRepository: PrizeRepository,
     val userLuckyDrawRepository: UserLuckyDrawRepository,
-    val drawHandler: DrawHandler
+    val drawUtil: DrawUtil
 ) {
     fun drawLuckyDraw(luckyDrawId: BigInteger, userId: BigInteger): DrawLuckyDrawResponse? {
 //      retrieve prize inventory
         val prizes = prizeRepository.findPrizesByLuckyDrawId(luckyDrawId)
 //        draw
-        val prizeDrew = drawHandler.getPrizeByRandom(prizes)
+        val prizeDrew = drawUtil.getPrizeByRandom(prizes)
 //        change inventory & save userLuckyDraw
         prizeDrew?.let {
             //?
