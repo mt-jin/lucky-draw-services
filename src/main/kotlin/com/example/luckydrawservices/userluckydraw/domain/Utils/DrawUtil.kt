@@ -6,7 +6,8 @@ import org.springframework.stereotype.Component
 @Component
 class DrawUtil {
     fun getPrizeByRandom(prizes: List<PrizeInfo>): PrizeInfo?{
-        val total = prizes.sumOf { it.stock.toInt() }
+
+        val total = getTotalStock(prizes)
         if (total == 0) {
             return null
         }
@@ -19,5 +20,9 @@ class DrawUtil {
             }
         }
         return null
+    }
+
+    fun getTotalStock(prizes: List<PrizeInfo>): Int{
+        return prizes.sumOf { it.stock.toInt() }
     }
 }

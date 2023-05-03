@@ -9,4 +9,6 @@ interface LuckyDrawJpaRepository: JpaRepository<LuckyDrawEntity, BigInteger> {
     fun findAllByStatus(
         status: LuckyDrawStatus = LuckyDrawStatus.ACTIVE
     ): List<LuckyDrawEntity>
+
+    fun save(luckyDrawEntity: LuckyDrawEntity): LuckyDrawEntity
 }

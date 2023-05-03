@@ -1,5 +1,6 @@
 package com.example.luckydrawservices.userluckydraw.query
 
+import com.example.luckydrawservices.luckydraw.infrastructure.LuckyDrawStatus
 import com.example.luckydrawservices.luckydraw.query.model.LuckyDrawInfo
 import com.example.luckydrawservices.luckydraw.query.repository.LuckyDrawRepository
 import com.example.luckydrawservices.prize.query.model.PrizeInfo
@@ -37,7 +38,7 @@ class UserLuckyDrawQueryServiceTest {
         val prizeId = BigInteger.ONE
         val userLuckyDraw = UserLuckyDraw(luckyDrawId,userId,prizeId)
         val prizeInfo = PrizeInfo(prizeId, luckyDrawId, "test prize", BigInteger.TEN)
-        val luckyDrawInfo = LuckyDrawInfo(luckyDrawId, "test lucky draw", "test lucky draw", BigInteger.TEN, BigInteger.ONE)
+        val luckyDrawInfo = LuckyDrawInfo(luckyDrawId, "test lucky draw", "test lucky draw", BigInteger.TEN, BigInteger.ONE, LuckyDrawStatus.ACTIVE)
 
         every {
             userLuckyDrawRepository.retrieveUserLuckyDrawsByUserId(userId)

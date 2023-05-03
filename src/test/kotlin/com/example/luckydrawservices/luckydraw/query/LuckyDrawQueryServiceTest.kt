@@ -1,5 +1,6 @@
 package com.example.luckydrawservices.luckydraw.query
 
+import com.example.luckydrawservices.luckydraw.infrastructure.LuckyDrawStatus
 import com.example.luckydrawservices.luckydraw.query.model.LuckyDrawInfo
 import com.example.luckydrawservices.luckydraw.query.repository.LuckyDrawRepository
 import com.example.luckydrawservices.luckydraw.query.response.LuckyDrawInfoResponse
@@ -63,7 +64,8 @@ class LuckyDrawQueryServiceTest{
         "Lucky Draw test",
         "Lucky Draw test",
         BigInteger.ZERO,
-        BigInteger.ZERO
+        BigInteger.ZERO,
+        LuckyDrawStatus.ACTIVE
     )
 
     val prizeInfoCola = PrizeInfo(

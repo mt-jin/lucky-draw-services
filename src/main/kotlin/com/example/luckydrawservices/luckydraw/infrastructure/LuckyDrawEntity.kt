@@ -20,6 +20,14 @@ data class LuckyDrawEntity (
     val categories: String? = "",
     val tags: String? = "",
     @Enumerated(STRING)
-    val status: LuckyDrawStatus? = LuckyDrawStatus.ACTIVE,
+    var status: LuckyDrawStatus? = LuckyDrawStatus.ACTIVE,
     val deleted: Int? = 0,
-){}
+){
+    fun updateStatus(luckyDrawStatus: LuckyDrawStatus){
+      status = luckyDrawStatus
+    }
+
+    fun addEntry() {
+        entryNumber?.plus(BigInteger.ONE)
+    }
+}

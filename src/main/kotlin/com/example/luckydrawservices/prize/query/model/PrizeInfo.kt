@@ -6,7 +6,13 @@ data class PrizeInfo(
     val id: BigInteger,
     val luckDrawId: BigInteger,
     val name: String,
-    val stock: BigInteger
+    var stock: BigInteger
 ) {
+    fun isOutOfStock(): Boolean {
+        return stock <= BigInteger.ZERO
+    }
 
+    fun deductStock() {
+        stock = stock.minus(BigInteger.ONE)
+    }
 }
