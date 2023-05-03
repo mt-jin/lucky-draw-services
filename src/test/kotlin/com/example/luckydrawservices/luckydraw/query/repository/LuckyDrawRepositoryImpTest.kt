@@ -29,10 +29,10 @@ class LuckyDrawRepositoryImpTest {
             BigInteger.ONE
         )
         every {
-            jpaRepository.findAll()
+            jpaRepository.findAllByStatus()
         } returns listOf(luckyDrawEntity)
 
-        val results = luckyDrawRepositoryImp.retrieveLuckyDraws()
+        val results = luckyDrawRepositoryImp.retrieveActiveLuckyDraws()
 
         Assertions.assertEquals(1, results.size)
         Assertions.assertEquals(luckyDrawEntity.id, results[0].id)

@@ -1,4 +1,4 @@
-package com.example.luckydrawservices.userluckydraw.query
+package com.example.luckydrawservices.common.exception
 
 enum class ExceptionCode(val statusCode: Int) {
     BAD_REQUEST(400),

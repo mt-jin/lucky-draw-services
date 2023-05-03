@@ -1,3 +1,3 @@
-package com.example.luckydrawservices.userluckydraw.query
+package com.example.luckydrawservices.common.exception
 
 abstract class ApplicationException(val code: ExceptionCode, message: String) : RuntimeException(message)

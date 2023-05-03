@@ -1,6 +1,8 @@
 package com.example.luckydrawservices.luckydraw.infrastructure
 
 import jakarta.persistence.Entity
+import jakarta.persistence.EnumType.STRING
+import jakarta.persistence.Enumerated
 import jakarta.persistence.Id
 import jakarta.persistence.Table
 import java.math.BigInteger
@@ -17,6 +19,7 @@ data class LuckyDrawEntity (
     val mode: String? = "",
     val categories: String? = "",
     val tags: String? = "",
-    val status: Int? = 0,
+    @Enumerated(STRING)
+    val status: LuckyDrawStatus? = LuckyDrawStatus.ACTIVE,
     val deleted: Int? = 0,
 ){}

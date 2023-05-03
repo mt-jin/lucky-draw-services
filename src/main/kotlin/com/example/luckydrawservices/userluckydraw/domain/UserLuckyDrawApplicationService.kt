@@ -1,5 +1,6 @@
 package com.example.luckydrawservices.userluckydraw.domain
 
+import com.example.luckydrawservices.luckydraw.query.repository.LuckyDrawRepository
 import com.example.luckydrawservices.prize.query.repository.PrizeRepository
 import com.example.luckydrawservices.userluckydraw.domain.Utils.DrawUtil
 import com.example.luckydrawservices.userluckydraw.domain.response.DrawLuckyDrawResponse
@@ -12,9 +13,15 @@ import org.springframework.stereotype.Service
 class UserLuckyDrawApplicationService(
     val prizeRepository: PrizeRepository,
     val userLuckyDrawRepository: UserLuckyDrawRepository,
+    val luckyDrawRepository: LuckyDrawRepository,
     val drawUtil: DrawUtil
 ) {
     fun drawLuckyDraw(luckyDrawId: BigInteger, userId: BigInteger): DrawLuckyDrawResponse? {
+
+
+        if (!checkEntry(luckyDrawId)){
+            return null
+        }
 //      retrieve prize inventory
         val prizes = prizeRepository.findPrizesByLuckyDrawId(luckyDrawId)
 //        draw
@@ -36,6 +43,11 @@ class UserLuckyDrawApplicationService(
 //        !!代替?.let
         return null
 
+    }
+
+    private fun checkEntry(luckyDrawId: BigInteger): Boolean {
+        val luckyDrawInfo = luckyDrawRepository.retrieveLuckyDrawById(luckyDrawId)
+        luckyDrawInfo.let { return luckyDrawInfo.entryNumber!! < luckyDrawInfo.maxEntries }
     }
 
 }

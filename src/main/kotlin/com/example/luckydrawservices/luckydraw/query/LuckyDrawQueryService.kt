@@ -4,6 +4,7 @@ import com.example.luckydrawservices.luckydraw.query.mapper.LuckyDrawMapper.Comp
 import com.example.luckydrawservices.luckydraw.query.repository.LuckyDrawRepository
 import com.example.luckydrawservices.luckydraw.query.response.LuckyDrawInfoResponse
 import com.example.luckydrawservices.prize.query.repository.PrizeRepository
+import java.math.BigInteger
 import org.springframework.stereotype.Service
 
 @Service
@@ -11,8 +12,8 @@ class LuckyDrawQueryService(
     private val repository: LuckyDrawRepository,
     private val prizeRepository: PrizeRepository
 ) {
-    fun retrieveLuckyDraws(): List<LuckyDrawInfoResponse>{
-        val luckyDraws = repository.retrieveLuckyDraws()
+    fun retrieveActiveLuckyDraws(): List<LuckyDrawInfoResponse>{
+        val luckyDraws = repository.retrieveActiveLuckyDraws()
 
         return luckyDraws.map {
             val prizeNameList = prizeRepository
@@ -22,4 +23,6 @@ class LuckyDrawQueryService(
             MAPPER.toLuckyDrawInfoResponse(it,prizeNameList)
         }
     }
+
+    fun retrieveLuckyDrawById(luckyDrawId: BigInteger) = repository.retrieveLuckyDrawById(luckyDrawId)
 }

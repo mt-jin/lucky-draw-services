@@ -30,14 +30,14 @@ class LuckyDrawQueryServiceTest{
     @Test
     fun `should return all lucky draws in a list successfully`(){
         every {
-            repository.retrieveLuckyDraws()
+            repository.retrieveActiveLuckyDraws()
         }returns listOf(luckyDrawInfo)
 
         every {
             prizeRepository.findPrizesByLuckyDrawId(BigInteger.ONE)
         }returns listOf(prizeInfoCola, prizeInfoWater, prizeInfoOneHundredDollars)
 
-        val luckyDraw = luckyDrawQueryService.retrieveLuckyDraws()[0]
+        val luckyDraw = luckyDrawQueryService.retrieveActiveLuckyDraws()[0]
 
         Assertions.assertEquals(luckyDrawInfoResponse.id, luckyDraw.id)
         Assertions.assertEquals(luckyDrawInfoResponse.description, luckyDraw.description)
@@ -90,9 +90,9 @@ class LuckyDrawQueryServiceTest{
 
     @Test
     fun `should return empty list given no lucky draw exists`() {
-        every { repository.retrieveLuckyDraws() } returns emptyList()
+        every { repository.retrieveActiveLuckyDraws() } returns emptyList()
 
-        val luckyDraws = luckyDrawQueryService.retrieveLuckyDraws()
+        val luckyDraws = luckyDrawQueryService.retrieveActiveLuckyDraws()
 
         Assertions.assertTrue(luckyDraws.isEmpty())
     }

@@ -4,6 +4,6 @@ import com.example.luckydrawservices.luckydraw.query.model.LuckyDrawInfo
 import java.math.BigInteger
 
 interface LuckyDrawRepository {
-    fun retrieveLuckyDraws():List<LuckyDrawInfo>
+    fun retrieveActiveLuckyDraws():List<LuckyDrawInfo>
     fun retrieveLuckyDrawById(luckDrawId: BigInteger): LuckyDrawInfo
 }
