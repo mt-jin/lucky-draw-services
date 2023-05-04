@@ -16,7 +16,8 @@ data class LuckyDrawEntity (
     val description: String?,
     val maxEntries: BigInteger,
     val entryNumber: BigInteger? = BigInteger.ZERO,
-    val mode: String? = "",
+    @Enumerated(STRING)
+    val mode: LuckyDrawMode? = LuckyDrawMode.BYSTOCK,
     val categories: String? = "",
     val tags: String? = "",
     @Enumerated(STRING)

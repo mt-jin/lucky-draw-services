@@ -1,7 +1,8 @@
 package com.example.luckydrawservices.userluckydraw.domain
 
-import com.example.luckydrawservices.common.exception.LuckyDrawStatusException
+import com.example.luckydrawservices.common.exception.LuckyDrawNotActiveException
 import com.example.luckydrawservices.luckydraw.infrastructure.LuckyDrawEntity
+import com.example.luckydrawservices.luckydraw.infrastructure.LuckyDrawMode.BYSTOCK
 import com.example.luckydrawservices.luckydraw.infrastructure.LuckyDrawStatus
 import com.example.luckydrawservices.luckydraw.query.model.LuckyDrawInfo
 import com.example.luckydrawservices.luckydraw.query.repository.LuckyDrawRepository
@@ -41,7 +42,8 @@ class UserLuckyDrawApplicationServiceTest {
         val luckyDrawId = BigInteger.ONE
         val userId = BigInteger.ONE
         val luckyDrawInfo = LuckyDrawInfo(BigInteger.ONE, "test lucky draw", "test lucky draw", BigInteger.TEN, BigInteger.ONE, LuckyDrawStatus.ACTIVE)
-        val luckyDrawEntity = LuckyDrawEntity(BigInteger.ONE, "test lucky draw", "test lucky draw", BigInteger.TEN, BigInteger.ONE, "test mode", "test categories", "test tags", LuckyDrawStatus.ACTIVE, 0)
+        val luckyDrawEntity = LuckyDrawEntity(BigInteger.ONE, "test lucky draw", "test lucky draw", BigInteger.TEN, BigInteger.ONE,
+            BYSTOCK, "test categories", "test tags", LuckyDrawStatus.ACTIVE, 0)
         val prizeInfo = PrizeInfo(BigInteger.ONE, luckyDrawId, "test prize", BigInteger.TEN)
         every {
             luckyDrawRepository.retrieveLuckyDrawById(luckyDrawId)
@@ -87,7 +89,7 @@ class UserLuckyDrawApplicationServiceTest {
         every {
             luckyDrawRepository.retrieveLuckyDrawById(luckyDrawId)
         } returns luckyDrawInfo
-        Assertions.assertThrows(LuckyDrawStatusException::class.java) {
+        Assertions.assertThrows(LuckyDrawNotActiveException::class.java) {
             userLuckyDrawApplicationService.drawLuckyDraw(luckyDrawId, BigInteger.ONE)
         }
     }
@@ -99,7 +101,7 @@ class UserLuckyDrawApplicationServiceTest {
         every {
             luckyDrawRepository.retrieveLuckyDrawById(luckyDrawId)
         } returns luckyDrawInfo
-        Assertions.assertThrows(LuckyDrawStatusException::class.java) {
+        Assertions.assertThrows(LuckyDrawNotActiveException::class.java) {
             userLuckyDrawApplicationService.drawLuckyDraw(luckyDrawId, BigInteger.ONE)
         }
     }
