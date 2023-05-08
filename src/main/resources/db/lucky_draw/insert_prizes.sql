@@ -23,4 +23,6 @@ INSERT INTO prize (lucky_draw_id, name, description, value, stock) VALUES
       (5,'Spirits', '250 ml/can', '$2', 5),
       (5,'Pepsi', '250 ml/can', '$2', 5),
       (5,'Oven', 'Electric Oven of 42L', '$200', 2),
-      (5,'Iphone 14', 'The newest iphone with storage of 256GB', '$1500', 1);
+      (5,'Iphone 14', 'The newest iphone with storage of 256GB', '$1500', 1),
+      (7,'VIP of *** app', 'VIP of *** app', '$10', 1),
+      (8,'Coca Cola', '250 ml/can', '$2', 5);

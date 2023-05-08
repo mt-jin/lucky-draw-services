@@ -1,6 +1,10 @@
 package com.example.luckydrawservices.userluckydraw.domain
 
-import com.example.luckydrawservices.common.exception.LuckyDrawStatusException
+import com.example.luckydrawservices.common.exception.LuckyDrawNotActiveException
+import com.example.luckydrawservices.common.exception.PrizeNegativeStockException
+import com.example.luckydrawservices.common.exception.PrizesNotFoundException
+import com.example.luckydrawservices.common.exception.RandomProcessException
+import com.example.luckydrawservices.luckydraw.infrastructure.LuckyDrawStatus.ACTIVE
 import com.example.luckydrawservices.luckydraw.infrastructure.LuckyDrawStatus.ENDED
 import com.example.luckydrawservices.luckydraw.infrastructure.LuckyDrawStatus.FULL
 import com.example.luckydrawservices.luckydraw.query.repository.LuckyDrawRepository
@@ -12,6 +16,7 @@ import com.example.luckydrawservices.userluckydraw.query.repository.UserLuckyDra
 import java.math.BigInteger
 import org.springframework.stereotype.Service
 
+
 @Service
 class UserLuckyDrawApplicationService(
     val prizeRepository: PrizeRepository,
@@ -22,44 +27,43 @@ class UserLuckyDrawApplicationService(
     fun drawLuckyDraw(luckyDrawId: BigInteger, userId: BigInteger): DrawLuckyDrawResponse? {
 
         val luckyDrawInfo = luckyDrawRepository.retrieveLuckyDrawById(luckyDrawId)
-        if ( ! luckyDrawInfo.isActive()){
-           throw LuckyDrawStatusException("Lucky Draw of id $luckyDrawId is not active")
+        if (!luckyDrawInfo.isActive()) {
+            throw LuckyDrawNotActiveException("Lucky draw of id [$luckyDrawId] is not active")
         }
 
-//      retrieve prize inventory
         val prizes = prizeRepository.findPrizesByLuckyDrawId(luckyDrawId)
-//        draw
+            .takeIf { it.isNotEmpty() }
+            ?: throw PrizesNotFoundException("Prizes of Lucky draw with id $luckyDrawId not found in database")
+
         val prizeDrew = drawUtil.getPrizeByRandom(prizes)
-//        change inventory & save userLuckyDraw
-        prizeDrew?.let {prizeDrew ->
+            ?: throw RandomProcessException("Draw lucky draw failed due to random process error")
 
-//            necessary?
-            prizeDrew.deductStock()
-            prizeRepository.updatePrizeStock(prizeDrew)
+        prizeDrew.also { it.deductStock() }.let { prizeRepository.updatePrizeStock(it) }
+        luckyDrawInfo.also { it.addEntry() }.let { luckyDrawRepository.updateLuckyDrawEntry(it) }
+        UserLuckyDraw(luckyDrawId, userId, prizeDrew.id).let { userLuckyDrawRepository.saveUserLuckyDraw(it) }
 
-//            necessary?
-            luckyDrawInfo.addEntry()
-            luckyDrawRepository.updateLuckyDrawEntry(luckyDrawInfo)
+        updateLuckyDrawStatus(luckyDrawId)
 
-            val userLuckyDraw = UserLuckyDraw(luckyDrawId = luckyDrawId, userId = userId, prizeId = prizeDrew.id)
-            userLuckyDrawRepository.saveUserLuckyDraw(userLuckyDraw)
+        return DrawLuckyDrawResponse(luckyDrawId, prizeDrew.name)
 
-            updateLuckyDrawStatus(luckyDrawId)
-            return DrawLuckyDrawResponse(luckyDrawId, prizeDrew.name)
-        }
-//        !!代替?.let
-        return null
     }
 
     private fun updateLuckyDrawStatus(luckyDrawId: BigInteger) {
-        val prizes = prizeRepository.findPrizesByLuckyDrawId(luckyDrawId)
-        val totalStock = drawUtil.getTotalStock(prizes)
-        if (totalStock == 0) {
-            luckyDrawRepository.updateLuckyDrawStatus(luckyDrawId, ENDED)
-        }
+
         val entryIsFull = luckyDrawRepository.retrieveLuckyDrawById(luckyDrawId).isEntryFull()
-        if (entryIsFull) {
-            luckyDrawRepository.updateLuckyDrawStatus(luckyDrawId, FULL)
+        var luckyDrawStatus = if (entryIsFull) FULL else ACTIVE
+
+        val totalStock = prizeRepository.findPrizesByLuckyDrawId(luckyDrawId)
+            .let { drawUtil.getTotalStock(it) }
+
+        luckyDrawStatus = when (totalStock.compareTo(0)) {
+            0 -> ENDED
+            1 -> luckyDrawStatus
+            else -> ENDED.also {
+                throw PrizeNegativeStockException("Lucky draw of id [$luckyDrawId] has negative stock prize")
+            }
         }
+
+        luckyDrawRepository.updateLuckyDrawStatus(luckyDrawId, luckyDrawStatus)
     }
 }

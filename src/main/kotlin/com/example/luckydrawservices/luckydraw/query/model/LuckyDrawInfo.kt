@@ -8,7 +8,7 @@ data class LuckyDrawInfo(
     val name: String?,
     val description: String?,
     val maxEntries: BigInteger,
-    val entryNumber: BigInteger = BigInteger.ZERO,
+    var entryNumber: BigInteger? = BigInteger.ZERO,
     val status: LuckyDrawStatus?
 ){
     fun isActive(): Boolean {
@@ -16,7 +16,7 @@ data class LuckyDrawInfo(
     }
 
     fun addEntry() {
-        entryNumber.plus(BigInteger.ONE)
+        entryNumber = entryNumber?.plus(BigInteger.ONE)
     }
 
     fun isEntryFull(): Boolean{
