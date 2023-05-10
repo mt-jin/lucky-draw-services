@@ -1,11 +1,12 @@
 package com.example.luckydrawservices.userluckydraw
 
-import com.example.luckydrawservices.userluckydraw.domain.UserLuckyDrawApplicationService
+import com.example.luckydrawservices.userluckydraw.application.UserLuckyDrawApplicationService
 import com.example.luckydrawservices.userluckydraw.query.UserLuckyDrawQueryService
 import java.math.BigInteger
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -15,14 +16,15 @@ class UserLuckyDrawResource (
 ){
 
     @GetMapping("/userluckydraws/{userId}")
-//    userId requestBody
     fun retrieveUserLuckyDraws(
         @PathVariable userId: BigInteger
     ) = userLuckyDrawQueryService.retrieveUserLuckyDrawsByUserId(userId)
 
-    @PostMapping("/userluckydraws/luckydraws/{luckyDrawId}/userid/{userId}")
-//    /userluckydraws/luckydraws
+    @PostMapping("/userluckydraws")
     fun drawLuckyDraw(
-        @PathVariable("luckyDrawId") luckyDrawId: BigInteger,
-        @PathVariable("userId") userId: BigInteger) = userLuckyDrawApplicationService.drawLuckyDraw(luckyDrawId, userId)
+        @RequestBody drawLuckyDrawRequest: DrawLuckyDrawRequest)
+    = userLuckyDrawApplicationService.drawLuckyDraw(
+        drawLuckyDrawRequest.luckyDrawId,
+        drawLuckyDrawRequest.userId
+    )
 }
