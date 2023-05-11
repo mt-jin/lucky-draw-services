@@ -1,6 +1,6 @@
 package com.example.luckydrawservices.userluckydraw.domain
 
-import com.example.luckydrawservices.common.exception.LuckyDrawNotActiveException
+import com.example.luckydrawservices.common.exception.conflict.LuckyDrawNotActiveException
 import com.example.luckydrawservices.luckydraw.infrastructure.LuckyDrawEntity
 import com.example.luckydrawservices.luckydraw.infrastructure.LuckyDrawMode.BYSTOCK
 import com.example.luckydrawservices.luckydraw.infrastructure.LuckyDrawStatus

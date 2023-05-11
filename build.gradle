@@ -87,9 +87,6 @@ tasks.register('apiTest', Test) {
     shouldRunAfter test
 
     useJUnitPlatform()
-//    testLogging {
-//        events "passed"
-//    }
 }
 check.dependsOn apiTest
 tasks.withType(Copy).configureEach { duplicatesStrategy 'exclude' }

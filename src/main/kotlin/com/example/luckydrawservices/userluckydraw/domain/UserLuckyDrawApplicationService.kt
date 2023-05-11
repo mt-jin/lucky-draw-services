@@ -1,9 +1,9 @@
 package com.example.luckydrawservices.userluckydraw.domain
 
-import com.example.luckydrawservices.common.exception.LuckyDrawNotActiveException
-import com.example.luckydrawservices.common.exception.PrizeNegativeStockException
-import com.example.luckydrawservices.common.exception.PrizesNotFoundException
-import com.example.luckydrawservices.common.exception.RandomProcessException
+import com.example.luckydrawservices.common.exception.conflict.LuckyDrawNotActiveException
+import com.example.luckydrawservices.common.exception.conflict.PrizeNegativeStockException
+import com.example.luckydrawservices.common.exception.notfound.PrizesNotFoundException
+import com.example.luckydrawservices.common.exception.internalservererror.RandomProcessException
 import com.example.luckydrawservices.luckydraw.infrastructure.LuckyDrawStatus.ACTIVE
 import com.example.luckydrawservices.luckydraw.infrastructure.LuckyDrawStatus.ENDED
 import com.example.luckydrawservices.luckydraw.infrastructure.LuckyDrawStatus.FULL

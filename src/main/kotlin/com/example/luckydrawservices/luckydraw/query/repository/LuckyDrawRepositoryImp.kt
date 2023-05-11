@@ -1,6 +1,6 @@
 package com.example.luckydrawservices.luckydraw.query.repository
 
-import com.example.luckydrawservices.common.exception.LuckyDrawNotFoundException
+import com.example.luckydrawservices.common.exception.notfound.LuckyDrawNotFoundException
 import com.example.luckydrawservices.luckydraw.infrastructure.LuckyDrawEntity
 import com.example.luckydrawservices.luckydraw.infrastructure.LuckyDrawStatus
 import com.example.luckydrawservices.luckydraw.query.model.LuckyDrawInfo

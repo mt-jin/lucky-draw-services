@@ -1,6 +1,6 @@
 package com.example.luckydrawservices.userluckydraw
 
-import com.example.luckydrawservices.userluckydraw.application.UserLuckyDrawApplicationService
+import com.example.luckydrawservices.userluckydraw.domain.UserLuckyDrawApplicationService
 import com.example.luckydrawservices.userluckydraw.query.UserLuckyDrawQueryService
 import java.math.BigInteger
 import org.springframework.web.bind.annotation.GetMapping
