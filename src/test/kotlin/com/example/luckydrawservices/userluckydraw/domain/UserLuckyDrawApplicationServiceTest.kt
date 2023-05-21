@@ -1,6 +1,9 @@
 package com.example.luckydrawservices.userluckydraw.domain
 
+import com.example.luckydrawservices.common.exception.ApplicationException
+import com.example.luckydrawservices.common.exception.conflict.LuckyDrawHasEndedException
 import com.example.luckydrawservices.common.exception.conflict.LuckyDrawNotActiveException
+import com.example.luckydrawservices.common.exception.conflict.LuckyDrawNotStartedException
 import com.example.luckydrawservices.fixture.LuckyDrawFixture.luckyDrawWithItems
 import com.example.luckydrawservices.luckydraw.domain.repository.LuckyDrawRepository
 import com.example.luckydrawservices.luckydraw.infrastructure.LuckyDrawStatus
@@ -13,9 +16,13 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import io.mockk.justRun
 import java.math.BigInteger
+import java.time.LocalDateTime
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
 
 @ExtendWith(MockKExtension::class)
 class UserLuckyDrawApplicationServiceTest {
@@ -38,7 +45,7 @@ class UserLuckyDrawApplicationServiceTest {
 
         every {
             luckyDrawRepository.retrieveLuckyDrawWithItems(luckyDrawId)
-        }returns luckyDrawWithItems
+        } returns luckyDrawWithItems
 
 
         justRun {
@@ -61,7 +68,7 @@ class UserLuckyDrawApplicationServiceTest {
 
         every {
             luckyDrawRepository.retrieveLuckyDrawWithItems(luckyDrawId)
-        }returns luckyDrawWithItems.copy(status = LuckyDrawStatus.ENDED)
+        } returns luckyDrawWithItems.copy(status = LuckyDrawStatus.ENDED)
 
         Assertions.assertThrows(LuckyDrawNotActiveException::class.java) {
             userLuckyDrawApplicationService.drawLuckyDraw(luckyDrawId, BigInteger.ONE)
@@ -74,7 +81,7 @@ class UserLuckyDrawApplicationServiceTest {
 
         every {
             luckyDrawRepository.retrieveLuckyDrawWithItems(luckyDrawId)
-        }returns luckyDrawWithItems.copy(status = LuckyDrawStatus.FULL)
+        } returns luckyDrawWithItems.copy(status = LuckyDrawStatus.FULL)
 
         Assertions.assertThrows(LuckyDrawNotActiveException::class.java) {
             userLuckyDrawApplicationService.drawLuckyDraw(luckyDrawId, BigInteger.ONE)
@@ -82,4 +89,40 @@ class UserLuckyDrawApplicationServiceTest {
     }
 
 
+    @ParameterizedTest
+    @MethodSource("timeProvider")
+    fun `should throw exception given lucky draw time not valid`(
+        startTime: LocalDateTime,
+        endTime: LocalDateTime,
+        expected: ApplicationException
+    ) {
+        val luckyDrawId = BigInteger.ONE
+
+        every {
+            luckyDrawRepository.retrieveLuckyDrawWithItems(luckyDrawId)
+        } returns luckyDrawWithItems.copy(startTime = startTime, endTime = endTime)
+
+        Assertions.assertThrows(expected.javaClass) {
+            userLuckyDrawApplicationService.drawLuckyDraw(luckyDrawId, BigInteger.ONE)
+        }
+    }
+
+    companion object {
+
+        @JvmStatic
+        fun timeProvider(): List<Arguments> {
+            return listOf(
+                Arguments.arguments(
+                    LocalDateTime.now().plusDays(1),
+                    LocalDateTime.now().plusDays(2),
+                    LuckyDrawNotStartedException("test")
+                ),
+                Arguments.arguments(
+                    LocalDateTime.now().minusDays(2),
+                    LocalDateTime.now().minusDays(1),
+                    LuckyDrawHasEndedException("test")
+                )
+            )
+        }
+    }
 }

@@ -66,4 +66,13 @@ data class LuckyDrawWithItems(
         status = luckyDrawStatus
     }
 
+    fun hasStarted():Boolean{
+        val currentTime = LocalDateTime.now()
+        return currentTime.isAfter(startTime)
+    }
+
+    fun notEnded():Boolean{
+        val currentTime = LocalDateTime.now()
+        return currentTime.isBefore(endTime)
+    }
 }
