@@ -1,11 +1,16 @@
 package com.example.luckydrawservices.luckydraw.query.repository
 
 import com.example.luckydrawservices.luckydraw.infrastructure.LuckyDrawEntity
+import com.example.luckydrawservices.luckydraw.infrastructure.LuckyDrawJpaRepository
+import com.example.luckydrawservices.luckydraw.infrastructure.LuckyDrawRepositoryImp
+import com.example.luckydrawservices.prize.domain.repository.PrizeRepository
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import java.math.BigInteger
+import java.time.LocalDateTime
+import java.time.Period
 import java.util.Optional
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -19,6 +24,9 @@ class LuckyDrawRepositoryImpTest {
     @MockK
     private lateinit var jpaRepository: LuckyDrawJpaRepository
 
+    @MockK
+    private lateinit var prizeRepository: PrizeRepository
+
     @Test
     fun `should retrieve lucky draws successfully`() {
         val luckyDrawEntity = LuckyDrawEntity(
@@ -26,7 +34,9 @@ class LuckyDrawRepositoryImpTest {
             "test lucky draw",
             "test lucky draw",
             BigInteger.TEN,
-            BigInteger.ONE
+            BigInteger.ONE,
+            startTime = LocalDateTime.now().minus(Period.ofDays(1)),
+            endTime = LocalDateTime.now().plus(Period.ofDays(1))
         )
         every {
             jpaRepository.findAllByStatus()
@@ -50,7 +60,9 @@ class LuckyDrawRepositoryImpTest {
             "test lucky draw",
             "test lucky draw",
             BigInteger.TEN,
-            BigInteger.ONE
+            BigInteger.ONE,
+            startTime = LocalDateTime.now().minus(Period.ofDays(1)),
+            endTime = LocalDateTime.now().plus(Period.ofDays(1))
         )
 
         every {

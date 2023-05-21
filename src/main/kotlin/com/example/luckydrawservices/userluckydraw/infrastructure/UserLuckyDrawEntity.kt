@@ -14,7 +14,6 @@ data class UserLuckyDrawEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "native")
     val id: BigInteger?,
-//    randomID, database generated ID
     val luckyDrawId: BigInteger,
     val userId: BigInteger,
     val startTime: Timestamp?,

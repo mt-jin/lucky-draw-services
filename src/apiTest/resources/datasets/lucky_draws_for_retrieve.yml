@@ -9,6 +9,8 @@ lucky_draw:
     tags: null
     status: ACTIVE
     deleted: 0
+    start_time: 2023-05-21 00:00:00
+    end_time: 2023-05-31 00:00:00
   - id: 2
     name: Lucky draw B
     description: Get your prizes now!
@@ -19,3 +21,5 @@ lucky_draw:
     tags: null
     status: ACTIVE
     deleted: 0
+    start_time: 2023-05-21 00:00:00
+    end_time: 2023-05-31 00:00:00

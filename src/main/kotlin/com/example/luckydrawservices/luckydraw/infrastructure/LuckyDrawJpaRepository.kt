@@ -1,4 +1,4 @@
-package com.example.luckydrawservices.luckydraw.query.repository
+package com.example.luckydrawservices.luckydraw.infrastructure
 
 import com.example.luckydrawservices.luckydraw.infrastructure.LuckyDrawEntity
 import com.example.luckydrawservices.luckydraw.infrastructure.LuckyDrawStatus

@@ -9,7 +9,7 @@ import org.mapstruct.factory.Mappers
 
 
 @Mapper
-interface LuckyDrawMapper {
+interface LuckyDrawQueryMapper {
     @Mappings(
         Mapping(source = "luckyDrawInfo.id", target = "id"),
         Mapping(source = "prizeNameList", target = "prizeNames")
@@ -17,6 +17,6 @@ interface LuckyDrawMapper {
     fun toLuckyDrawInfoResponse(luckyDrawInfo: LuckyDrawInfo, prizeNameList: List<String>):LuckyDrawInfoResponse
 
     companion object {
-        val MAPPER: LuckyDrawMapper = Mappers.getMapper(LuckyDrawMapper::class.java)
+        val MAPPER: LuckyDrawQueryMapper = Mappers.getMapper(LuckyDrawQueryMapper::class.java)
     }
 }

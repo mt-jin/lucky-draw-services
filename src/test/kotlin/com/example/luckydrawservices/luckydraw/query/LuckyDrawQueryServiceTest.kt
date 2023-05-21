@@ -2,10 +2,10 @@ package com.example.luckydrawservices.luckydraw.query
 
 import com.example.luckydrawservices.luckydraw.infrastructure.LuckyDrawStatus
 import com.example.luckydrawservices.luckydraw.query.model.LuckyDrawInfo
-import com.example.luckydrawservices.luckydraw.query.repository.LuckyDrawRepository
+import com.example.luckydrawservices.luckydraw.domain.repository.LuckyDrawRepository
 import com.example.luckydrawservices.luckydraw.query.response.LuckyDrawInfoResponse
 import com.example.luckydrawservices.prize.query.model.PrizeInfo
-import com.example.luckydrawservices.prize.query.repository.PrizeRepository
+import com.example.luckydrawservices.prize.domain.repository.PrizeRepository
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK

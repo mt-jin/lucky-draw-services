@@ -1,4 +1,4 @@
-package com.example.luckydrawservices.prize.query.repository
+package com.example.luckydrawservices.prize.infrastructure
 
 import com.example.luckydrawservices.prize.infrastructure.PrizeEntity
 import java.math.BigInteger

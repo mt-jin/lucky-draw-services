@@ -1,5 +1,7 @@
-package com.example.luckydrawservices.prize.query.repository
+package com.example.luckydrawservices.prize.infrastructure
 
+import com.example.luckydrawservices.prize.domain.model.PrizeItem
+import com.example.luckydrawservices.prize.domain.repository.PrizeRepository
 import com.example.luckydrawservices.prize.query.model.PrizeInfo
 import java.math.BigInteger
 import org.springframework.stereotype.Repository
@@ -20,9 +22,9 @@ class PrizeRepositoryImpl(
         return PrizeInfo(prize.id, prize.luckyDrawId, prize.name, prize.stock)
     }
 
-    override fun updatePrizeStock(prizeInfo: PrizeInfo): PrizeInfo {
-        val prize = jpaRepository.findById(prizeInfo.id).get().copy(stock = prizeInfo.stock)
+    override fun updatePrizeStock(prizeItem: PrizeItem) {
+        val prize = jpaRepository.findById(prizeItem.id).get().copy(stock = prizeItem.stock)
         jpaRepository.save(prize)
-        return PrizeInfo(prize.id, prize.luckyDrawId, prize.name, prize.stock)
     }
+
 }

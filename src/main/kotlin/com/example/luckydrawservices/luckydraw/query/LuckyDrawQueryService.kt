@@ -1,9 +1,9 @@
 package com.example.luckydrawservices.luckydraw.query
 
-import com.example.luckydrawservices.luckydraw.query.mapper.LuckyDrawMapper.Companion.MAPPER
-import com.example.luckydrawservices.luckydraw.query.repository.LuckyDrawRepository
+import com.example.luckydrawservices.luckydraw.domain.repository.LuckyDrawRepository
+import com.example.luckydrawservices.luckydraw.query.mapper.LuckyDrawQueryMapper.Companion.MAPPER
 import com.example.luckydrawservices.luckydraw.query.response.LuckyDrawInfoResponse
-import com.example.luckydrawservices.prize.query.repository.PrizeRepository
+import com.example.luckydrawservices.prize.domain.repository.PrizeRepository
 import java.math.BigInteger
 import org.springframework.stereotype.Service
 

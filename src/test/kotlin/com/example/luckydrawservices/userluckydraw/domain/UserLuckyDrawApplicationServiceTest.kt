@@ -1,20 +1,17 @@
 package com.example.luckydrawservices.userluckydraw.domain
 
 import com.example.luckydrawservices.common.exception.conflict.LuckyDrawNotActiveException
-import com.example.luckydrawservices.luckydraw.infrastructure.LuckyDrawEntity
-import com.example.luckydrawservices.luckydraw.infrastructure.LuckyDrawMode.BYSTOCK
+import com.example.luckydrawservices.fixture.LuckyDrawFixture.luckyDrawWithItems
+import com.example.luckydrawservices.luckydraw.domain.repository.LuckyDrawRepository
 import com.example.luckydrawservices.luckydraw.infrastructure.LuckyDrawStatus
-import com.example.luckydrawservices.luckydraw.query.model.LuckyDrawInfo
-import com.example.luckydrawservices.luckydraw.query.repository.LuckyDrawRepository
-import com.example.luckydrawservices.prize.query.model.PrizeInfo
-import com.example.luckydrawservices.prize.query.repository.PrizeRepository
-import com.example.luckydrawservices.userluckydraw.domain.Utils.DrawUtil
+import com.example.luckydrawservices.userluckydraw.domain.utils.DrawUtil
 import com.example.luckydrawservices.userluckydraw.query.model.UserLuckyDraw
 import com.example.luckydrawservices.userluckydraw.query.repository.UserLuckyDrawRepository
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
+import io.mockk.justRun
 import java.math.BigInteger
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -26,56 +23,32 @@ class UserLuckyDrawApplicationServiceTest {
     private lateinit var userLuckyDrawApplicationService: UserLuckyDrawApplicationService
 
     @MockK
-    private lateinit var prizeRepository: PrizeRepository
-
-    @MockK
     private lateinit var userLuckyDrawRepository: UserLuckyDrawRepository
 
     @MockK
     private lateinit var luckyDrawRepository: LuckyDrawRepository
 
-    @MockK
-    private lateinit var drawUtil: DrawUtil
+    private val drawUtil = DrawUtil()
 
     @Test
     fun `should draw lucky draw successfully`() {
         val luckyDrawId = BigInteger.ONE
         val userId = BigInteger.ONE
-        val luckyDrawInfo = LuckyDrawInfo(BigInteger.ONE, "test lucky draw", "test lucky draw", BigInteger.TEN, BigInteger.ONE, LuckyDrawStatus.ACTIVE)
-        val luckyDrawEntity = LuckyDrawEntity(BigInteger.ONE, "test lucky draw", "test lucky draw", BigInteger.TEN, BigInteger.ONE,
-            BYSTOCK, "test categories", "test tags", LuckyDrawStatus.ACTIVE, 0)
-        val prizeInfo = PrizeInfo(BigInteger.ONE, luckyDrawId, "test prize", BigInteger.TEN)
-        every {
-            luckyDrawRepository.retrieveLuckyDrawById(luckyDrawId)
-        } returns luckyDrawInfo
+        val prizeId = BigInteger.ONE
 
         every {
-            prizeRepository.findPrizesByLuckyDrawId(luckyDrawId)
-        } returns listOf(prizeInfo)
-
-        every {
-            drawUtil.getPrizeByRandom(listOf(prizeInfo))
-        } returns prizeInfo
-
-        every {
-            prizeRepository.retrievePrizeById(prizeInfo.id)
-        } returns prizeInfo
-
-        every {
-            prizeRepository.updatePrizeStock(any())
-        } returns prizeInfo.copy(stock = prizeInfo.stock.minus(BigInteger.ONE))
+            luckyDrawRepository.retrieveLuckyDrawWithItems(luckyDrawId)
+        }returns luckyDrawWithItems
 
 
-        every {
-            luckyDrawRepository.updateLuckyDrawEntry(luckyDrawInfo)
-        } returns luckyDrawEntity
-
+        justRun {
+            luckyDrawRepository.updateLuckyDrawWithItems(any())
+        }
 
         every {
             userLuckyDrawRepository.saveUserLuckyDraw(any())
-        } returns UserLuckyDraw(luckyDrawId, userId, prizeInfo.id)
+        } returns UserLuckyDraw(luckyDrawId, userId, prizeId)
 
-        every { drawUtil.getTotalStock(listOf(prizeInfo)) } returns 10
 
         val drawLuckyDrawResponse = userLuckyDrawApplicationService.drawLuckyDraw(luckyDrawId, BigInteger.ONE)
         Assertions.assertEquals(luckyDrawId, drawLuckyDrawResponse?.luckyDrawId)
@@ -85,10 +58,11 @@ class UserLuckyDrawApplicationServiceTest {
     @Test
     fun `should throw exception given lucky draw status is ended`() {
         val luckyDrawId = BigInteger.ONE
-        val luckyDrawInfo = LuckyDrawInfo(BigInteger.ONE, "test lucky draw", "test lucky draw", BigInteger.TEN, BigInteger.ONE, LuckyDrawStatus.ENDED)
+
         every {
-            luckyDrawRepository.retrieveLuckyDrawById(luckyDrawId)
-        } returns luckyDrawInfo
+            luckyDrawRepository.retrieveLuckyDrawWithItems(luckyDrawId)
+        }returns luckyDrawWithItems.copy(status = LuckyDrawStatus.ENDED)
+
         Assertions.assertThrows(LuckyDrawNotActiveException::class.java) {
             userLuckyDrawApplicationService.drawLuckyDraw(luckyDrawId, BigInteger.ONE)
         }
@@ -97,10 +71,11 @@ class UserLuckyDrawApplicationServiceTest {
     @Test
     fun `should throw exception given lucky draw status is full`() {
         val luckyDrawId = BigInteger.ONE
-        val luckyDrawInfo = LuckyDrawInfo(BigInteger.ONE, "test lucky draw", "test lucky draw", BigInteger.TEN, BigInteger.ONE, LuckyDrawStatus.FULL)
+
         every {
-            luckyDrawRepository.retrieveLuckyDrawById(luckyDrawId)
-        } returns luckyDrawInfo
+            luckyDrawRepository.retrieveLuckyDrawWithItems(luckyDrawId)
+        }returns luckyDrawWithItems.copy(status = LuckyDrawStatus.FULL)
+
         Assertions.assertThrows(LuckyDrawNotActiveException::class.java) {
             userLuckyDrawApplicationService.drawLuckyDraw(luckyDrawId, BigInteger.ONE)
         }

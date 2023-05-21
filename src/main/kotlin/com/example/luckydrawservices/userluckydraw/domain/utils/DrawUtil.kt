@@ -1,11 +1,11 @@
-package com.example.luckydrawservices.userluckydraw.domain.Utils
+package com.example.luckydrawservices.userluckydraw.domain.utils
 
-import com.example.luckydrawservices.prize.query.model.PrizeInfo
+import com.example.luckydrawservices.prize.domain.model.PrizeItem
 import org.springframework.stereotype.Component
 
 @Component
 class DrawUtil {
-    fun getPrizeByRandom(prizes: List<PrizeInfo>): PrizeInfo?{
+    fun getPrizeByRandom(prizes: List<PrizeItem>): PrizeItem?{
 
         val total = getTotalStock(prizes)
         if (total == 0) {
@@ -22,7 +22,7 @@ class DrawUtil {
         return null
     }
 
-    fun getTotalStock(prizes: List<PrizeInfo>): Int{
+    fun getTotalStock(prizes: List<PrizeItem>): Int{
         return prizes.sumOf { it.stock.toInt() }
     }
 }

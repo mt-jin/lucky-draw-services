@@ -1,7 +1,7 @@
 package com.example.luckydrawservices.userluckydraw.query
 
-import com.example.luckydrawservices.luckydraw.query.repository.LuckyDrawRepository
-import com.example.luckydrawservices.prize.query.repository.PrizeRepository
+import com.example.luckydrawservices.luckydraw.domain.repository.LuckyDrawRepository
+import com.example.luckydrawservices.prize.domain.repository.PrizeRepository
 import com.example.luckydrawservices.userluckydraw.query.repository.UserLuckyDrawRepository
 import com.example.luckydrawservices.userluckydraw.query.response.UserLuckyDrawInfoResponse
 import java.math.BigInteger

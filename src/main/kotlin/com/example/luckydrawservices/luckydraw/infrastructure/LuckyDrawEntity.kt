@@ -1,11 +1,13 @@
 package com.example.luckydrawservices.luckydraw.infrastructure
 
+import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType.STRING
 import jakarta.persistence.Enumerated
 import jakarta.persistence.Id
 import jakarta.persistence.Table
 import java.math.BigInteger
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "lucky_draw")
@@ -23,12 +25,8 @@ data class LuckyDrawEntity (
     @Enumerated(STRING)
     var status: LuckyDrawStatus? = LuckyDrawStatus.ACTIVE,
     val deleted: Int? = 0,
-){
-    fun updateStatus(luckyDrawStatus: LuckyDrawStatus){
-      status = luckyDrawStatus
-    }
-
-    fun addEntry() {
-        entryNumber = entryNumber?.plus(BigInteger.ONE)
-    }
-}
+    @Column(columnDefinition = "TIMESTAMP")
+    val startTime: LocalDateTime?,
+    @Column(columnDefinition = "TIMESTAMP")
+    val endTime: LocalDateTime?,
+)
