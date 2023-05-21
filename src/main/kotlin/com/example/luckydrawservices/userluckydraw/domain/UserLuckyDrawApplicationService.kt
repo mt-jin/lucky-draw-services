@@ -41,14 +41,18 @@ class UserLuckyDrawApplicationService(
 
     private fun validateLuckyDraw(luckyDrawWithItems: LuckyDrawWithItems) {
         val luckyDrawId = luckyDrawWithItems.id
+
+        if (!luckyDrawWithItems.isActive()) {
+            throw LuckyDrawNotActiveException("Lucky draw of id [$luckyDrawId] is not active")
+        }
         if (!luckyDrawWithItems.hasStarted()) {
             throw LuckyDrawNotStartedException("Lucky draw of id [$luckyDrawId] has not started")
         }
         if (!luckyDrawWithItems.notEnded()) {
             throw LuckyDrawHasEndedException("Lucky draw of id [$luckyDrawId] has ended")
         }
-        if (!luckyDrawWithItems.isActive()) {
-            throw LuckyDrawNotActiveException("Lucky draw of id [$luckyDrawId] is not active")
+        if (luckyDrawWithItems.isEntryFull()) {
+            throw LuckyDrawNotActiveException("Lucky draw of id [$luckyDrawId] has ended")
         }
         if (luckyDrawWithItems.itemsIsEmpty()) {
             throw PrizesNotFoundException("Prizes of Lucky draw with id [$luckyDrawId] not found in database")

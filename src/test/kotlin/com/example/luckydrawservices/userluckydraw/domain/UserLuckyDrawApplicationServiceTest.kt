@@ -92,15 +92,29 @@ class UserLuckyDrawApplicationServiceTest {
     @ParameterizedTest
     @MethodSource("timeProvider")
     fun `should throw exception given lucky draw time not valid`(
-        startTime: LocalDateTime,
-        endTime: LocalDateTime,
-        expected: ApplicationException
+        startTime: LocalDateTime, endTime: LocalDateTime, expected: ApplicationException
     ) {
         val luckyDrawId = BigInteger.ONE
 
         every {
             luckyDrawRepository.retrieveLuckyDrawWithItems(luckyDrawId)
         } returns luckyDrawWithItems.copy(startTime = startTime, endTime = endTime)
+
+        Assertions.assertThrows(expected.javaClass) {
+            userLuckyDrawApplicationService.drawLuckyDraw(luckyDrawId, BigInteger.ONE)
+        }
+    }
+
+    @ParameterizedTest
+    @MethodSource("entryProvider")
+    fun `should throw exception given lucky draw entry not valid`(
+        totalEntryLimit: BigInteger, entry: BigInteger, expected: ApplicationException
+    ) {
+        val luckyDrawId = BigInteger.ONE
+
+        every {
+            luckyDrawRepository.retrieveLuckyDrawWithItems(luckyDrawId)
+        } returns luckyDrawWithItems.copy(maxEntries = totalEntryLimit, entryNumber = entry)
 
         Assertions.assertThrows(expected.javaClass) {
             userLuckyDrawApplicationService.drawLuckyDraw(luckyDrawId, BigInteger.ONE)
@@ -116,12 +130,20 @@ class UserLuckyDrawApplicationServiceTest {
                     LocalDateTime.now().plusDays(1),
                     LocalDateTime.now().plusDays(2),
                     LuckyDrawNotStartedException("test")
-                ),
-                Arguments.arguments(
+                ), Arguments.arguments(
                     LocalDateTime.now().minusDays(2),
                     LocalDateTime.now().minusDays(1),
                     LuckyDrawHasEndedException("test")
                 )
+            )
+        }
+
+        @JvmStatic
+        fun entryProvider(): List<Arguments> {
+            return listOf(
+                Arguments.arguments(
+                    BigInteger.ZERO, BigInteger.ZERO, LuckyDrawNotActiveException("test")
+                ),
             )
         }
     }
