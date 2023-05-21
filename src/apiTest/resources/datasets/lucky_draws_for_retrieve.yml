@@ -4,7 +4,7 @@ lucky_draw:
     description: Get your prizes now!
     max_entries: 100
     entry_number: 0
-    mode: null
+    mode: BYSTOCK
     categories: null
     tags: null
     status: ACTIVE
@@ -16,7 +16,7 @@ lucky_draw:
     description: Get your prizes now!
     max_entries: 100
     entry_number: 0
-    mode: null
+    mode: BYSTOCK
     categories: null
     tags: null
     status: ACTIVE
