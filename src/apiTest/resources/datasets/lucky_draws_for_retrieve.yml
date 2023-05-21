@@ -2,8 +2,8 @@ lucky_draw:
   - id: 1
     name: Lucky draw A
     description: Get your prizes now!
-    max_entries: 100
-    entry_number: 0
+    total_entry_limit: 100
+    total_entry_number: 0
     mode: BYSTOCK
     categories: null
     tags: null
@@ -14,8 +14,8 @@ lucky_draw:
   - id: 2
     name: Lucky draw B
     description: Get your prizes now!
-    max_entries: 100
-    entry_number: 0
+    total_entry_limit: 100
+    total_entry_number: 0
     mode: BYSTOCK
     categories: null
     tags: null

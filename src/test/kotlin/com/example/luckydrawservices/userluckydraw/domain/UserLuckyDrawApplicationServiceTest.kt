@@ -114,7 +114,7 @@ class UserLuckyDrawApplicationServiceTest {
 
         every {
             luckyDrawRepository.retrieveLuckyDrawWithItems(luckyDrawId)
-        } returns luckyDrawWithItems.copy(maxEntries = totalEntryLimit, entryNumber = entry)
+        } returns luckyDrawWithItems.copy(totalEntryLimit = totalEntryLimit, totalEntryNumber = entry)
 
         Assertions.assertThrows(expected.javaClass) {
             userLuckyDrawApplicationService.drawLuckyDraw(luckyDrawId, BigInteger.ONE)

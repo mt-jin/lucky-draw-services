@@ -11,8 +11,8 @@ data class LuckyDrawWithItems(
     val id: BigInteger,
     val name: String?,
     val description: String?,
-    val maxEntries: BigInteger,
-    var entryNumber: BigInteger? = BigInteger.ZERO,
+    val totalEntryLimit: BigInteger,
+    var totalEntryNumber: BigInteger? = BigInteger.ZERO,
     val mode: LuckyDrawMode? = LuckyDrawMode.BYSTOCK,
     var status: LuckyDrawStatus? = LuckyDrawStatus.ACTIVE,
     val deleted: Int? = 0,
@@ -25,7 +25,7 @@ data class LuckyDrawWithItems(
     }
 
     fun isEntryFull(): Boolean {
-        return maxEntries <= entryNumber
+        return totalEntryLimit <= totalEntryNumber
     }
 
     fun itemsIsEmpty(): Boolean {
@@ -37,7 +37,7 @@ data class LuckyDrawWithItems(
     }
 
     fun addEntry() {
-        entryNumber = entryNumber?.plus(BigInteger.ONE)
+        totalEntryNumber = totalEntryNumber?.plus(BigInteger.ONE)
     }
 
     fun updateEntryAndStock(prizeItem: PrizeItem) {

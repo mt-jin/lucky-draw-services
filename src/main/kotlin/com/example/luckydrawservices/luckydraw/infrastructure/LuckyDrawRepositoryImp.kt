@@ -17,7 +17,7 @@ class LuckyDrawRepositoryImp(
     override fun retrieveActiveLuckyDraws(): List<LuckyDrawInfo> {
         val results = jpaRepository.findAllByStatus()
         return results.map {
-            LuckyDrawInfo(it.id, it.name, it.description, it.maxEntries, it.entryNumber!!, it.status)
+            LuckyDrawInfo(it.id, it.name, it.description, it.totalEntryLimit, it.totalEntryNumber!!, it.status)
         }
     }
 
@@ -36,8 +36,8 @@ class LuckyDrawRepositoryImp(
             result.id,
             result.name,
             result.description,
-            result.maxEntries,
-            result.entryNumber!!,
+            result.totalEntryLimit,
+            result.totalEntryNumber!!,
             result.status
         )
     }

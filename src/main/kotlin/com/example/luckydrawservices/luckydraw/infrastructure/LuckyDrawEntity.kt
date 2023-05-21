@@ -16,8 +16,8 @@ data class LuckyDrawEntity (
     val id: BigInteger,
     val name: String?,
     val description: String?,
-    val maxEntries: BigInteger,
-    var entryNumber: BigInteger? = BigInteger.ZERO,
+    val totalEntryLimit: BigInteger,
+    var totalEntryNumber: BigInteger? = BigInteger.ZERO,
     @Enumerated(STRING)
     val mode: LuckyDrawMode? = LuckyDrawMode.BYSTOCK,
     val categories: String? = "",
@@ -29,4 +29,5 @@ data class LuckyDrawEntity (
     val startTime: LocalDateTime?,
     @Column(columnDefinition = "TIMESTAMP")
     val endTime: LocalDateTime?,
+    val userEntryLimit: BigInteger?
 )

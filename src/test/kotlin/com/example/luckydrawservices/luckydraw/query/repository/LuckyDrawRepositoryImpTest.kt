@@ -36,7 +36,8 @@ class LuckyDrawRepositoryImpTest {
             BigInteger.TEN,
             BigInteger.ONE,
             startTime = LocalDateTime.now().minus(Period.ofDays(1)),
-            endTime = LocalDateTime.now().plus(Period.ofDays(1))
+            endTime = LocalDateTime.now().plus(Period.ofDays(1)),
+            userEntryLimit = null
         )
         every {
             jpaRepository.findAllByStatus()
@@ -48,8 +49,8 @@ class LuckyDrawRepositoryImpTest {
         Assertions.assertEquals(luckyDrawEntity.id, results[0].id)
         Assertions.assertEquals(luckyDrawEntity.name, results[0].name)
         Assertions.assertEquals(luckyDrawEntity.description, results[0].description)
-        Assertions.assertEquals(luckyDrawEntity.maxEntries, results[0].maxEntries)
-        Assertions.assertEquals(luckyDrawEntity.entryNumber, results[0].entryNumber)
+        Assertions.assertEquals(luckyDrawEntity.totalEntryLimit, results[0].totalEntryLimit)
+        Assertions.assertEquals(luckyDrawEntity.totalEntryNumber, results[0].totalEntryNumber)
     }
 
     @Test
@@ -62,7 +63,8 @@ class LuckyDrawRepositoryImpTest {
             BigInteger.TEN,
             BigInteger.ONE,
             startTime = LocalDateTime.now().minus(Period.ofDays(1)),
-            endTime = LocalDateTime.now().plus(Period.ofDays(1))
+            endTime = LocalDateTime.now().plus(Period.ofDays(1)),
+            userEntryLimit = null
         )
 
         every {
@@ -74,7 +76,7 @@ class LuckyDrawRepositoryImpTest {
         Assertions.assertEquals(luckyDrawEntity.id, result.id)
         Assertions.assertEquals(luckyDrawEntity.name, result.name)
         Assertions.assertEquals(luckyDrawEntity.description, result.description)
-        Assertions.assertEquals(luckyDrawEntity.maxEntries, result.maxEntries)
-        Assertions.assertEquals(luckyDrawEntity.entryNumber, result.entryNumber)
+        Assertions.assertEquals(luckyDrawEntity.totalEntryLimit, result.totalEntryLimit)
+        Assertions.assertEquals(luckyDrawEntity.totalEntryNumber, result.totalEntryNumber)
     }
 }

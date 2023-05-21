@@ -16,8 +16,8 @@ class LuckyDrawApiTest : ApiTest() {
             .body("[0].id", equalTo(1))
             .body("[0].name", equalTo("Lucky draw A"))
             .body("[0].description", equalTo("Get your prizes now!"))
-            .body("[0].maxEntries", equalTo(100))
-            .body("[0].entryNumber", equalTo(0))
+            .body("[0].totalEntryLimit", equalTo(100))
+            .body("[0].totalEntryNumber", equalTo(0))
             .body("[0].prizeNames", equalTo(listOf("pepsi","coca cola")))
     }
 }

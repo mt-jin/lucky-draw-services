@@ -1,11 +1,11 @@
 package com.example.luckydrawservices.luckydraw.query
 
+import com.example.luckydrawservices.luckydraw.domain.repository.LuckyDrawRepository
 import com.example.luckydrawservices.luckydraw.infrastructure.LuckyDrawStatus
 import com.example.luckydrawservices.luckydraw.query.model.LuckyDrawInfo
-import com.example.luckydrawservices.luckydraw.domain.repository.LuckyDrawRepository
 import com.example.luckydrawservices.luckydraw.query.response.LuckyDrawInfoResponse
-import com.example.luckydrawservices.prize.query.model.PrizeInfo
 import com.example.luckydrawservices.prize.domain.repository.PrizeRepository
+import com.example.luckydrawservices.prize.query.model.PrizeInfo
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
@@ -43,8 +43,8 @@ class LuckyDrawQueryServiceTest{
         Assertions.assertEquals(luckyDrawInfoResponse.id, luckyDraw.id)
         Assertions.assertEquals(luckyDrawInfoResponse.description, luckyDraw.description)
         Assertions.assertEquals(luckyDrawInfoResponse.name, luckyDraw.name)
-        Assertions.assertEquals(luckyDrawInfoResponse.entryNumber, luckyDraw.entryNumber)
-        Assertions.assertEquals(luckyDrawInfoResponse.maxEntries, luckyDraw.maxEntries)
+        Assertions.assertEquals(luckyDrawInfoResponse.totalEntryNumber, luckyDraw.totalEntryNumber)
+        Assertions.assertEquals(luckyDrawInfoResponse.totalEntryLimit, luckyDraw.totalEntryLimit)
         Assertions.assertEquals(luckyDrawInfoResponse.prizeNames, luckyDraw.prizeNames)
 
     }
