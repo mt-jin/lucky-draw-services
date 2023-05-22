@@ -8,7 +8,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import io.mockk.verify
 import java.math.BigInteger
-import java.time.Instant
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -27,8 +26,6 @@ class UserLuckyDrawRepositoryImplTest {
     private val luckyDrawId = BigInteger.valueOf(2L)
 
     private val prizeId = BigInteger.valueOf(3L)
-
-    private val now = Instant.now()
 
     private val completed = true
 
@@ -64,5 +61,4 @@ class UserLuckyDrawRepositoryImplTest {
             userLuckyDrawJpaRepository.saveAndFlush(completedUserLuckyDrawEntity)
         }
     }
-
 }

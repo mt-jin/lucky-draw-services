@@ -10,9 +10,9 @@ import org.springframework.stereotype.Repository
 class UserLuckyDrawRepositoryImpl(
     val userLuckyDrawJpaRepository: UserLuckyDrawJpaRepository
 ) : UserLuckyDrawRepository {
-    override fun retrieveUserLuckyDrawsByUserId(userId: BigInteger):List<UserLuckyDraw> {
+    override fun retrieveUserLuckyDrawsByUserId(userId: BigInteger): List<UserLuckyDraw> {
         val results = userLuckyDrawJpaRepository.findALlByUserId(userId)
-        return results.map { UserLuckyDraw(luckyDrawId = it.luckyDrawId,userId =it.userId, prizeId = it.prizeId) }
+        return results.map { UserLuckyDraw(luckyDrawId = it.luckyDrawId, userId = it.userId, prizeId = it.prizeId) }
     }
 
     override fun saveUserLuckyDraw(userLuckyDraw: UserLuckyDraw): UserLuckyDraw {
@@ -20,5 +20,19 @@ class UserLuckyDrawRepositoryImpl(
         userLuckyDrawEntity.completed = true
         userLuckyDrawJpaRepository.saveAndFlush(userLuckyDrawEntity)
         return MAPPER.toUserLuckyDraw(userLuckyDrawEntity)
+    }
+
+    override fun retrieveUserLuckyDrawsByUserIdAndLuckyDrawId(
+        userId: BigInteger, luckyDrawId: BigInteger
+    ): List<UserLuckyDraw>? {
+        val userLuckyDrawEntities = userLuckyDrawJpaRepository.findAllByUserIdAndLuckyDrawId(userId, luckyDrawId)
+
+        return userLuckyDrawEntities.map {
+            UserLuckyDraw(
+                luckyDrawId = it.luckyDrawId,
+                userId = it.userId,
+                prizeId = it.prizeId
+            )
+        }
     }
 }

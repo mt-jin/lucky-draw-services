@@ -9,10 +9,12 @@ import java.time.LocalDateTime
 import java.time.Period
 
 object LuckyDrawFixture {
+
     val item = PrizeItem(
         BigInteger.ONE,
         "test prize",
         BigInteger.TEN)
+
 
     val luckyDrawWithItems =
         LuckyDrawWithItems(
@@ -26,6 +28,7 @@ object LuckyDrawFixture {
             0,
             LocalDateTime.now().minus(Period.ofDays(1)),
             LocalDateTime.now().plus(Period.ofDays(1)),
+            BigInteger.TWO,
             listOf(item)
         )
 }

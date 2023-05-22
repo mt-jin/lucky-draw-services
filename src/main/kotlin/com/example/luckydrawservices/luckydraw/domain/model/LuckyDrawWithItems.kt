@@ -18,6 +18,7 @@ data class LuckyDrawWithItems(
     val deleted: Int? = 0,
     val startTime: LocalDateTime,
     val endTime: LocalDateTime,
+    val userEntryLimit: BigInteger?,
     val items: List<PrizeItem>,
 ) {
     fun isActive(): Boolean {

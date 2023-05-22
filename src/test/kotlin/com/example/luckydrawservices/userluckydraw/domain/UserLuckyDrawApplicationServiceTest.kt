@@ -4,6 +4,7 @@ import com.example.luckydrawservices.common.exception.ApplicationException
 import com.example.luckydrawservices.common.exception.conflict.LuckyDrawHasEndedException
 import com.example.luckydrawservices.common.exception.conflict.LuckyDrawNotActiveException
 import com.example.luckydrawservices.common.exception.conflict.LuckyDrawNotStartedException
+import com.example.luckydrawservices.common.exception.conflict.MaxUserEntryException
 import com.example.luckydrawservices.fixture.LuckyDrawFixture.luckyDrawWithItems
 import com.example.luckydrawservices.luckydraw.domain.repository.LuckyDrawRepository
 import com.example.luckydrawservices.luckydraw.infrastructure.LuckyDrawStatus
@@ -47,6 +48,14 @@ class UserLuckyDrawApplicationServiceTest {
             luckyDrawRepository.retrieveLuckyDrawWithItems(luckyDrawId)
         } returns luckyDrawWithItems
 
+        every {
+            userLuckyDrawRepository.retrieveUserLuckyDrawsByUserIdAndLuckyDrawId(
+                userId,
+                luckyDrawId
+            )
+        } returns listOf(
+            UserLuckyDraw(luckyDrawId, userId, prizeId)
+        )
 
         justRun {
             luckyDrawRepository.updateLuckyDrawWithItems(any())
@@ -121,6 +130,34 @@ class UserLuckyDrawApplicationServiceTest {
         }
     }
 
+    @ParameterizedTest
+    @MethodSource("userEntryProvider")
+    fun `should throw exception given user reached user entry limit`(
+        userEntryLimit: BigInteger
+    ){
+        val luckyDrawId = BigInteger.ONE
+        val userId = BigInteger.ONE
+        val prizeId = BigInteger.ONE
+
+        every {
+            luckyDrawRepository.retrieveLuckyDrawWithItems(luckyDrawId)
+        } returns luckyDrawWithItems.copy(userEntryLimit = userEntryLimit)
+
+        every {
+            userLuckyDrawRepository.retrieveUserLuckyDrawsByUserIdAndLuckyDrawId(
+                userId,
+                luckyDrawId
+            )
+        } returns listOf(
+            UserLuckyDraw(luckyDrawId, userId, prizeId),
+            UserLuckyDraw(luckyDrawId, userId, prizeId)
+        )
+
+        Assertions.assertThrows(MaxUserEntryException::class.java) {
+            userLuckyDrawApplicationService.drawLuckyDraw(luckyDrawId, userId)
+        }
+    }
+
     companion object {
 
         @JvmStatic
@@ -143,6 +180,16 @@ class UserLuckyDrawApplicationServiceTest {
             return listOf(
                 Arguments.arguments(
                     BigInteger.ZERO, BigInteger.ZERO, LuckyDrawNotActiveException("test")
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun userEntryProvider(): List<Arguments> {
+            return listOf(
+                Arguments.arguments(
+                    BigInteger.ONE,
+                    BigInteger.TWO
                 ),
             )
         }

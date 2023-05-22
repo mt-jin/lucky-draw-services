@@ -5,6 +5,6 @@ import java.math.BigInteger
 
 interface UserLuckyDrawRepository{
     fun retrieveUserLuckyDrawsByUserId(userId: BigInteger):List<UserLuckyDraw>
-
     fun saveUserLuckyDraw(userLuckyDraw: UserLuckyDraw):UserLuckyDraw
+    fun retrieveUserLuckyDrawsByUserIdAndLuckyDrawId(userId: BigInteger, luckyDrawId: BigInteger):List<UserLuckyDraw>?
 }

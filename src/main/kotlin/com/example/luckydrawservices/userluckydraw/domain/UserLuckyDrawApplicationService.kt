@@ -3,6 +3,7 @@ package com.example.luckydrawservices.userluckydraw.domain
 import com.example.luckydrawservices.common.exception.conflict.LuckyDrawHasEndedException
 import com.example.luckydrawservices.common.exception.conflict.LuckyDrawNotActiveException
 import com.example.luckydrawservices.common.exception.conflict.LuckyDrawNotStartedException
+import com.example.luckydrawservices.common.exception.conflict.MaxUserEntryException
 import com.example.luckydrawservices.common.exception.internalservererror.RandomProcessException
 import com.example.luckydrawservices.common.exception.notfound.PrizesNotFoundException
 import com.example.luckydrawservices.luckydraw.domain.model.LuckyDrawWithItems
@@ -25,6 +26,7 @@ class UserLuckyDrawApplicationService(
 
         val luckyDrawWithItems =
             luckyDrawRepository.retrieveLuckyDrawWithItems(luckyDrawId).also { validateLuckyDraw(it) }
+        luckyDrawWithItems.userEntryLimit?.also { validateUserEntry(userId, luckyDrawId, it) }
 
         val prizeDrew = drawUtil.getPrizeByRandom(luckyDrawWithItems.items)
             ?: throw RandomProcessException("Draw lucky draw failed due to random process error")
@@ -37,6 +39,17 @@ class UserLuckyDrawApplicationService(
         UserLuckyDraw(luckyDrawId, userId, prizeDrew.id).let { userLuckyDrawRepository.saveUserLuckyDraw(it) }
 
         return DrawLuckyDrawResponse(luckyDrawId, prizeDrew.name)
+    }
+
+    private fun validateUserEntry(userId: BigInteger, luckyDrawId: BigInteger, userEntryLimit: BigInteger) {
+        val userEntryNumber =
+            userLuckyDrawRepository.retrieveUserLuckyDrawsByUserIdAndLuckyDrawId(
+                userId,
+                luckyDrawId
+            )?.size ?: 0
+        if (userEntryNumber.toBigInteger() >= userEntryLimit) {
+            throw MaxUserEntryException("Per user can draw lucky draw of id [$luckyDrawId] for $userEntryLimit times, you have reached the limit times")
+        }
     }
 
     private fun validateLuckyDraw(luckyDrawWithItems: LuckyDrawWithItems) {

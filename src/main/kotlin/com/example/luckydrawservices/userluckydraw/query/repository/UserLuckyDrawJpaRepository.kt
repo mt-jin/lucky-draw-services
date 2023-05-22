@@ -7,5 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository
 interface UserLuckyDrawJpaRepository:JpaRepository<UserLuckyDrawEntity,BigInteger> {
 
     fun findALlByUserId(userId: BigInteger):List<UserLuckyDrawEntity>
+    fun findAllByUserIdAndLuckyDrawId(userId: BigInteger, luckyDrawId: BigInteger):List<UserLuckyDrawEntity>
 
 }
